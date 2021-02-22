@@ -8,3 +8,12 @@
     <% end %>
   </section>
 </ul>
+
+<section class="add-ride">
+  <%= form_with url: local: true do |f| %>
+    <h4>Add a ride to workload:</h4>
+    <%= f.label :ride_id %>
+    <%= f.text_field :ride_id %>
+    <%= f.submit value: "Add Ride", url: mechanic_rides_create_path(:mechanic_id => @mechanic.id), method: :post %>
+  <% end %>
+</section>
