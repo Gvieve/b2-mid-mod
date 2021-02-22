@@ -23,4 +23,20 @@ describe Mechanic, model: :type do
       end
     end
   end
+
+  describe 'instance methods' do
+    describe '#open_rides' do
+      it 'returns rides for that mechanic where open is true' do
+        avery = Mechanic.create!(name: "Avery Jones", years_experience: 8)
+        herbert = Mechanic.create!(name: "Herbert Fallon", years_experience: 3)
+        hurler = avery.rides.create!(name: "The Hurler", thrill_rating: 7, open: true)
+        tumbler = avery.rides.create!(name: "The Tumbler", thrill_rating: 6, open: true)
+        xcelerator = herbert.rides.create!(name: "The Xcelerator", thrill_rating: 9, open: true)
+        doom = herbert.rides.create!(name: "Tower of Doom", thrill_rating: 8, open: false)
+
+        expect(avery.open_rides).to eq([hurler, tumbler])
+        expect(herbert.open_rides).to eq([xcelerator])
+      end
+    end
+  end
 end

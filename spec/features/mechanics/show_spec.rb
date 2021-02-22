@@ -1,4 +1,4 @@
-equire 'rails_helper'
+require 'rails_helper'
 
 describe 'When I visit a mechanics show page' do
   before :each do
@@ -17,14 +17,27 @@ describe 'When I visit a mechanics show page' do
   it 'I see a their name, years of experience, and all the rides they are working on' do
     visit mechanic_path(@avery)
 
+    expect(current_path).to eq("/mechanics/#{@avery.id}")
     expect(page).to have_content("Mechanic: Avery Jones")
     expect(page).to have_content("Years of Experience: 8")
-    expect(page).to have_content("Current rudes they're working on:")
+    expect(page).to have_content("Current rides they're working on:")
 
     within ".rides" do
       expect(page).to have_content("The Hurler")
       expect(page).to have_content("The Tumbler")
       expect(page).not_to have_content("The Xcelerator")
+    end
+  end
+
+  it 'and I do not see rides that are not currently open' do
+    visit mechanic_path(@herbert)
+
+    expect(current_path).to eq("/mechanics/#{@herbert.id}")
+    expect(page).to have_content("Mechanic: Herbert Fallon")
+
+    within ".rides" do
+      expect(page).to have_content("The Xcelerator")
+      expect(page).not_to have_content("Tower of Doom")
     end
   end
 end
