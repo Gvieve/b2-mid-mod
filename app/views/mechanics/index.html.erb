@@ -1,0 +1,10 @@
+<h2>All Mechanics</h2>
+
+<section class="mechanics">
+  <% @mechanics.each do |mechanic| %>
+    <ul><div class="mechanic-<%= mechanic.id%>">
+      <li><%= link_to mechanic.name, mechanic_path(mechanic)%>:
+        <%= mechanic.years_experience %> years of experience</li>
+    </div></ul>
+  <% end %>
+</section>
