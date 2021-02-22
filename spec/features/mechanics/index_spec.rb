@@ -27,4 +27,16 @@ describe 'When I visit a mechanics index page' do
 
     expect(page).to have_content("Average Years of Experience: 6.75")
   end
+
+  it 'has a link to each mechanic that link takes to me their show page' do
+    visit mechanics_path
+
+    expect(page).to have_link("Avery Jones")
+    expect(page).to have_link("Herbert Fallon")
+    expect(page).to have_link("Elon Musk")
+    expect(page).to have_link("Sarah Ledbetter")
+
+    click_link "Avery Jones"
+    expect(current_path).to eq("/mechanics/#{@avery.id}")
+  end
 end
