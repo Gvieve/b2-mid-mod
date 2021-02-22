@@ -2,12 +2,14 @@ require 'rails_helper'
 
 describe 'When I visit a mechanics show page' do
   before :each do
+    Ride.destroy_all
+    Mechanic.destroy_all
     @avery = Mechanic.create!(name: "Avery Jones", years_experience: 8)
     @herbert = Mechanic.create!(name: "Herbert Fallon", years_experience: 3)
     @elon = Mechanic.create!(name: "Elon Musk", years_experience: 11)
     @sarah = Mechanic.create!(name: "Sarah Ledbetter", years_experience: 5)
-    @hurler = @avery.rides.create!(name: "The Hurler", thrill_rating: 7, open: true)
-    @tumbler = @avery.rides.create!(name: "The Tumbler", thrill_rating: 6, open: true)
+    @hurler = @avery.rides.create!(name: "The Hurler", thrill_rating: 6, open: true)
+    @tumbler = @avery.rides.create!(name: "The Tumbler", thrill_rating: 7, open: true)
     @xcelerator = @elon.rides.create!(name: "The Xcelerator", thrill_rating: 9, open: true)
     @herbert.rides << @xcelerator
     @doom = @herbert.rides.create!(name: "Tower of Doom", thrill_rating: 8, open: false)
@@ -21,11 +23,13 @@ describe 'When I visit a mechanics show page' do
     expect(page).to have_content("Mechanic: Avery Jones")
     expect(page).to have_content("Years of Experience: 8")
     expect(page).to have_content("Current rides they're working on:")
+    save_and_open_page
 
     within ".rides" do
       expect(page).to have_content("The Hurler")
       expect(page).to have_content("The Tumbler")
       expect(page).not_to have_content("The Xcelerator")
+      expect(@tumbler.name).to appear_before(@hurler.name)
     end
   end
 
