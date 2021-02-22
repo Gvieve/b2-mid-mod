@@ -23,7 +23,6 @@ describe 'When I visit a mechanics show page' do
     expect(page).to have_content("Mechanic: Avery Jones")
     expect(page).to have_content("Years of Experience: 8")
     expect(page).to have_content("Current rides they're working on:")
-    save_and_open_page
 
     within ".rides" do
       expect(page).to have_content("The Hurler")
@@ -42,6 +41,19 @@ describe 'When I visit a mechanics show page' do
     within ".rides" do
       expect(page).to have_content("The Xcelerator")
       expect(page).not_to have_content("Tower of Doom")
+    end
+  end
+
+  it 'has a form to add a ride to this mechanic' do
+    visit mechanic_path(@herbert)
+
+    within ".add-ride" do
+      expect(page).to have_content("Add a ride to workload:")
+      fill_in "Ride Id", with: "#{@tumbler.id}"
+      click_button "Add Ride"
+      expect(current_path).to eq("/mechanics/#{@herbert.id}")
+      expect(page).to have_content("The Tumbler")
+      expect(@xcelerator.name).to appear_before(@tumbler.name)
     end
   end
 end
