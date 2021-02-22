@@ -11,6 +11,7 @@ describe 'When I visit a mechanics index page' do
   it 'I see a list of all mechanics names and years of experience' do
     visit mechanics_path
 
+    expect(current_path).to eq("/mechanics")
     expect(page).to have_content("All Mechanics")
 
     within ".mechanics" do
@@ -19,5 +20,11 @@ describe 'When I visit a mechanics index page' do
       expect(page).to have_content("Elon Musk: 11 years of experience")
       expect(page).to have_content("Sarah Ledbetter: 5 years of experience")
     end
+  end
+
+  it 'has the average years of experience for all mechanics' do
+    visit mechanics_path
+
+    expect(page).to have_content("Average Years of Experience: 6.75")
   end
 end
